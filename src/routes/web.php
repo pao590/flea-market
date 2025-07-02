@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,11 @@ use App\Http\Controllers\AuthController;
 |
 */
 
-Route::get('/', [AuthController::class, 'index']);
 
 Route::middleware('auth')->group(function () {});
+
+Route::get('/', [ItemController::class, 'index'])->name('items.index');
+
+Route::get('/item/{item}', [ItemController::class, 'show'])->name('items.show');
+
+Route::put('/item/{item}', [ItemController::class, 'update'])->name('items.update');

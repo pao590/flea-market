@@ -1,0 +1,73 @@
+/* 商品詳細ページ用 CSS */
+
+.item-detail-container {
+    max-width: 900px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.item-detail-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+}
+
+.item-image img {
+    width: 100%;
+    max-width: 400px;
+    border-radius: 8px;
+    object-fit: contain;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.item-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.item-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: #222;
+}
+
+.item-description {
+    font-size: 1rem;
+    margin-bottom: 20px;
+    color: #444;
+}
+
+.item-meta {
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+.item-price {
+    font-weight: bold;
+    color: #e60023;
+    margin-bottom: 8px;
+}
+
+.item-condition {
+    margin-bottom: 8px;
+}
+
+.item-categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.category-badge {
+    background-color: #f0f0f0;
+    color: #333;
+    font-size: 0.9rem;
+    padding: 4px 10px;
+    border-radius: 6px;
+}

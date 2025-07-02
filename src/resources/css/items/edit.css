@@ -1,0 +1,47 @@
+.edit-container {
+    max-width: 700px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+.edit-container h2 {
+    font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.edit-container label {
+    display: block;
+    margin-top: 15px;
+    font-weight: bold;
+}
+
+.edit-container input[type="text"],
+.edit-container input[type="number"],
+.edit-container textarea,
+.edit-container select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    margin-top: 5px;
+}
+
+.edit-container .current-image {
+    width: 200px;
+    margin-top: 10px;
+    border-radius: 6px;
+}
+
+.edit-container button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #3490dc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
