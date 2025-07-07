@@ -1,73 +1,144 @@
-/* 商品詳細ページ用 CSS */
-
-.item-detail-container {
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 20px;
-    background-color: #ffffff;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+/* コメントセクション全体 */
+.comments-section {
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
 }
 
-.item-detail-wrapper {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 24px;
-}
-
-.item-image img {
-    width: 100%;
-    max-width: 400px;
-    border-radius: 8px;
-    object-fit: contain;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.item-info {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.item-title {
-    font-size: 1.8rem;
+/* コメントタイトル */
+.comments-title {
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 10px;
-    color: #222;
-}
-
-.item-description {
-    font-size: 1rem;
     margin-bottom: 20px;
-    color: #444;
 }
 
-.item-meta {
-    font-size: 1rem;
-    line-height: 1.6;
-}
-
-.item-price {
-    font-weight: bold;
-    color: #e60023;
-    margin-bottom: 8px;
-}
-
-.item-condition {
-    margin-bottom: 8px;
-}
-
-.item-categories {
+/* コメント一覧アイテム */
+.comment-item {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
+    align-items: flex-start;
+    margin-bottom: 20px;
 }
 
-.category-badge {
-    background-color: #f0f0f0;
+/* プロフィール画像 */
+.comment-profile-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-right: 12px;
+}
+
+/* コメント本文 */
+.comment-content {
+    flex: 1;
+}
+
+/* 投稿者名 */
+.comment-user-name {
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+/* コメントテキスト */
+.comment-text {
+    font-size: 14px;
     color: #333;
-    font-size: 0.9rem;
-    padding: 4px 10px;
+}
+
+/* コメントがない場合のメッセージ */
+.no-comments-message {
+    color: #777;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* コメント投稿フォーム */
+.comment-form {
+    margin-top: 30px;
+}
+
+/* テキストエリア */
+.comment-textarea {
+    width: 100%;
+    padding: 10px;
     border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    resize: vertical;
+}
+
+/* エラーメッセージ */
+.comment-error-message {
+    color: #e3342f;
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+/* 送信ボタン */
+.comment-submit-button {
+    display: inline-block;
+    padding: 8px 16px;
+    background-color: #3490dc;
+    color: #fff;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.comment-submit-button:hover {
+    background-color: #2779bd;
+}
+
+.alert-success {
+    background-color: #e6ffed;
+    color: #2d6a4f;
+    border: 1px solid #95d5b2;
+    padding: 10px;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.item-actions {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-top: 10px;
+}
+
+.like-button i {
+    font-size: 24px;
+    color: #f5c518;
+    /* ゴールド色 */
+}
+
+.like-count,
+.comment-count {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.comment-button i {
+    font-size: 24px;
+    color: #555;
+}
+
+.purchase-button-wrapper {
+    margin-top: 20px;
+}
+
+.purchase-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.purchase-button:hover {
+    background-color: #0056b3;
 }

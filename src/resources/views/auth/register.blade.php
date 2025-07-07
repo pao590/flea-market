@@ -64,6 +64,11 @@
                 <div class="form__input--text">
                     <input type="password" name="password_confirmation" />
                 </div>
+                <div class="form__error">
+                    @error('password_confirmation')
+                    {{ $message }}
+                    @enderror
+                </div>
             </div>
         </div>
         <div class="form__button">
@@ -71,7 +76,7 @@
         </div>
     </form>
     <div class="login__link">
-        <a class="login__button-submit" href="/login">ログインの方はこちら</a>
+        <a class="login__button-submit" href="{{ route('login') }}">ログインの方はこちら</a>
     </div>
 </div>
 @endsection

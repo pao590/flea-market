@@ -13,4 +13,24 @@ class Item extends Model
     {
         return $this->belongsToMany(Category::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
+    public function likes()
+    {
+        return $this->hasMany(Mylist::class);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class);
+    }
+
+    public function mylists()
+    {
+        return $this->hasMany(Mylist::class);
+    }
 }

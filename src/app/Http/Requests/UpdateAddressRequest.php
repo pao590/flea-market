@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CommentRequest extends FormRequest
+class UpdateAddressRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,16 +24,15 @@ class CommentRequest extends FormRequest
     public function rules()
     {
         return [
-            'content' => 'required|string|max:255',
-            'item_id' => 'required|exists:items,id',
+            'address' => 'required|string|max:255',
         ];
     }
 
     public function messages()
     {
         return [
-            'content.required' => 'コメントを入力してください。',
-            'content.max' => 'コメントは255文字以内で入力してください。',
+            'address.required' => '住所を入力してください',
+            'address.max' => '住所は255文字以内で入力してください',
         ];
     }
 }

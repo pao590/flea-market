@@ -8,19 +8,20 @@ use App\Models\Category;
 use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use App\Models\Mylist;
 
 class ItemController extends Controller
 {
     public function create()
     {
         $categories = Category::all();
-        return view('items.create',compact('categories'));
+        return view('items.create', compact('categories'));
     }
 
     public function store(ExhibitionRequest $request)
     {
-        if($request->hasFile('image')){
-            $imagePath = $request->file('image')->store('items','public');
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('items', 'public');
         }
 
         $item = Item::create([
@@ -39,15 +40,15 @@ class ItemController extends Controller
 
         return redirect()->route('items.index')->with('success', '商品を出品しました。');
     }
-        
+
     public function index(Request $request)
     {
         $items = Item::with('categories')->orderBy('created_at', 'desc')
-        ->paginate(12);
+            ->paginate(12);
 
         return view('items.index', compact('items'));
     }
-    
+
     public function edit(Item $item)
     {
         if (Auth::id() !== $item->user_id) {
@@ -62,8 +63,7 @@ class ItemController extends Controller
 
     public function update(ExhibitionRequest $request, Item $item)
     {
-        if (Auth::id() !== $item->user_id) 
-        {
+        if (Auth::id() !== $item->user_id) {
             abort(403, 'Unauthorized');
         } //更新防止
 
@@ -77,5 +77,37 @@ class ItemController extends Controller
         $item->categories()->sync($request->categories);
 
         return redirect()->route('items.show', $item)->with('success', '商品情報を更新しました。');
+    }
+
+    public function show(Item $item)
+    {
+        $item->load(['categories', 'user', 'likes', 'comments.user']);
+
+        return view('items.show', compact('item'));
+    }
+
+    public function like($itemId)
+    {
+        $user = auth()->user();
+
+        if (!Mylist::where('user_id', $user->id)->where('item_id', $itemId)->exists()) {
+            Mylist::create([
+                'user_id' => $user->id,
+                'item_id' => $itemId,
+            ]);
+        }
+
+        return redirect()->back();
+    }
+
+    public function unlike($itemId)
+    {
+        $user = auth()->user();
+
+        Mylist::where('user_id', $user->id)
+            ->where('item_id', $itemId)
+            ->delete();
+
+        return redirect()->back();
     }
 }
