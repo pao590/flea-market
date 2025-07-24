@@ -20,7 +20,12 @@
 
             <p class="item-brand">{{ $item->brand_name ?? 'ブランド未設定' }}</p>
 
+            <h3>商品説明</h3>
             <p class="item-description">{{ $item->description }}</p>
+
+            @if (!empty($item->color))
+            <p>カラー：{{ $item->color }}</p>
+            @endif
 
             <div class="item-meta">
                 <div class="item-price">価格: ¥{{ number_format($item->price) }}</div>
@@ -31,21 +36,27 @@
                     @endphp
                     <form action="{{ $liked ? route('items.unlike',$item->id) : route('items.like',$item->id) }}" method="POST" class="like-form">
                         @csrf
-                        <button type="submit" class="like-button">
+                        <button type="submit" class="like-button" aria-label="お気に入りボタン">
                             <i class="{{ $liked ? 'fas' : 'far' }} fa-star"></i>
+
                         </button>
                         <div class="like-count">{{ $item->mylists->count() }}</div>
                     </form>
                     @endauth
 
-                    <div class="comment-button">
+                    <div class="comment-button" role="button" tabindex="0" aria-label="コメント数">
                         <i class="far fa-comment"></i>
                         <div class="comment-count">{{ $item->comments->count() }}</div>
                     </div>
+
                 </div>
 
                 <div class="purchase-button-wrapper">
+                    @if ($isSold)
+                    <span class="sold-label text-danger">この商品は売り切れました（Sold）</span>
+                    @elseif (Auth::check() && Auth::id() !== $item->user_id)
                     <a href="{{ route('purchases.index', ['item_id' => $item->id]) }}" class="purchase-button">購入手続きへ</a>
+                    @endif
                 </div>
 
                 <div class="item-condition">状態:
@@ -68,18 +79,23 @@
     </div>
 
     <div class="comments-section">
-        <h3 class="comments-title">コメント({{ $item->comments->count() }})</h3>
+        <h3 class="comments-title">コメント（{{ $item->comments->count() }}）</h3>
 
         @forelse ($item->comments as $comment)
-        <div class="comment-item">
-            <img src="{{ asset($comment->user->profile_image ?? 'storage/default-profile.png') }}" alt="プロフィール画像" class="comment-profile-image">
-            <div class="comment-content">
-                <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
+        <div class="comment-card">
+            <div class="comment-header">
+                <img src="{{ asset($comment->user->profile_image ?? 'storage/default-profile.png') }}" alt="プロフィール画像" class="comment-avatar">
+                <div class="comment-user-info">
+                    <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
+                    <p class="comment-date">{{ $comment->created_at->format('Y年m月d日 H:i') }}</p>
+                </div>
+            </div>
+            <div class="comment-body">
                 <p class="comment-text">{{ $comment->content }}</p>
             </div>
         </div>
         @empty
-        <p class="no-comments-message">まだコメントがありません</p>
+        <p class="no-comments-message">まだコメントがありません。</p>
         @endforelse
 
         @auth
@@ -96,5 +112,6 @@
         </div>
         @endauth
     </div>
+
 </div>
 @endsection

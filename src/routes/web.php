@@ -4,7 +4,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\MypageController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,23 +23,26 @@ use App\Http\Controllers\PurchaseController;
 Route::middleware('auth')->group(function () {
 
     Route::post('/comments', [CommentController::class, 'store'])->name('comments.store');
-
     Route::post('/items/{item}/like', [ItemController::class, 'like'])->name('items.like');
-
     Route::post('/items/{item}/unlike', [ItemController::class, 'unlike'])->name('items.unlike');
-
     Route::put('/item/{item}', [ItemController::class, 'update'])->name('items.update');
 
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/purchase', [PurchaseController::class, 'index'])->name('purchases.index');
-
     Route::get('/purchase/address', [PurchaseController::class, 'address'])->name('purchases.address');
-
-    Route::get('/purchase/address', [PurchaseController::class, 'address'])->name('purchases.address');
-
     Route::post('/purchase/address', [PurchaseController::class, 'updateAddress'])->name('purchases.updateAddress');
+    Route::post('/purchase/{item}', [PurchaseController::class, 'store'])->name('purchases.store');
 
+    Route::get('/item/create', [ItemController::class, 'create'])->name('items.create');
+    Route::post('/item/store', [ItemController::class, 'store'])->name('items.store');
+
+    Route::get('/mypages', [MypageController::class, 'index'])->name('mypages.index');
+    
+    Route::get('/mypages/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::post('/mypages/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::get('/mypages/setup', [ProfileController::class, 'create'])->name('profile.create');
+    Route::post('/mypages/setup', [ProfileController::class, 'store'])->name('profile.store');
 });
 
 Route::get('/', [ItemController::class, 'index'])->name('items.index');

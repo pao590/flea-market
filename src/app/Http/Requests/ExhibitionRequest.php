@@ -29,7 +29,7 @@ class ExhibitionRequest extends FormRequest
             'image' => ['required', 'image', 'mimes:jpeg,png'],
             'categories' => ['required', 'array', 'min:1'],
             'categories.*' => ['exists:categories,id'],
-            'condition' => ['required', 'in:new,used,other'],
+            'condition' => ['required', 'in:新品,未使用に近い,やや傷や汚れあり,全体的に状態が悪い'],
             'price' => ['required', 'integer', 'min:0'],
         ];
     }

@@ -8,7 +8,7 @@
 <div class="edit-container">
     <h2>商品情報を編集</h2>
 
-    <form action="{{ route('items.update', $item) }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('items.update', $item) }}" method="POST" enctype="multipart/form-data" novalidate>
         @csrf
         @method('PUT')
 

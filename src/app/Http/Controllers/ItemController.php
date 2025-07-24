@@ -31,7 +31,6 @@ class ItemController extends Controller
             'image_path' => $imagePath ?? null,
             'condition' => $request->condition,
             'price' => $request->price,
-            'category_id' => null,
         ]);
 
         if ($request->has('categories')) {
@@ -43,10 +42,24 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
-        $items = Item::with('categories')->orderBy('created_at', 'desc')
-            ->paginate(12);
+        $query = Item::with('categories');
 
-        return view('items.index', compact('items'));
+        $userId = Auth::id();
+
+        if ($userId) {
+            $query->where('user_id', '!=', $userId);
+        }
+
+        if ($request->filled('keyword')) {
+            $keyword = $request->input('keyword');
+            $query->where('name', 'like', '%' . $keyword . '%');
+        }
+
+        $purchasedItemIds = \App\Models\Purchase::pluck('item_id')->toArray();
+
+        $items = $query->orderBy('created_at', 'desc')->paginate(12);
+
+        return view('items.index', compact('items', 'purchasedItemIds'));
     }
 
     public function edit(Item $item)
@@ -83,6 +96,8 @@ class ItemController extends Controller
     {
         $item->load(['categories', 'user', 'likes', 'comments.user']);
 
+        $isSold = \App\Models\Purchase::where('item_id', $item->id)->exists();
+        
         return view('items.show', compact('item'));
     }
 

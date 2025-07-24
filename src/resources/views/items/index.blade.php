@@ -16,7 +16,12 @@
         @forelse ($items as $item)
         <div class="item-card">
             <a href="{{ route('items.show', ['item' => $item->id]) }}">
-                <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                <div class="item-image-wrapper" style="position: relative;">
+                    <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
+                    @if (isset($purchasedItemIds) && in_array($item->id, $purchasedItemIds))
+                    <span class="sold-overlay">Sold</span>
+                    @endif
+                </div>
                 <h2>{{ $item->name }}</h2>
                 <p>価格: ¥{{ number_format($item->price) }}</p>
                 <p>状態: {{ $item->condition }}</p>

@@ -8,7 +8,7 @@
 <div class="item-create-wrapper">
     <h2 class="item-create-title">商品を出品する</h2>
 
-    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data" class="item-create-form">
+    <form action="{{ route('items.store') }}" method="POST" enctype="multipart/form-data" class="item-create-form" novalidate>
         @csrf
 
         <div class="form-group">
@@ -39,9 +39,9 @@
             <label class="form-label">カテゴリ（複数選択）</label>
             <div class="category-checkbox-group">
                 @foreach ($categories as $category)
-                <label class="category-checkbox">
+                <label class="category-button">
                     <input type="checkbox" name="categories[]" value="{{ $category->id }}" {{ in_array($category->id, old('categories', [])) ? 'checked' : ''}}>
-                    {{ category->name }}
+                    <span>{{ $category->name }}</span>
                 </label>
                 @endforeach
             </div>

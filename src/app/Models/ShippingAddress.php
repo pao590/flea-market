@@ -9,8 +9,8 @@ class ShippingAddress extends Model
 {
     use HasFactory;
 
-    public function user()
+    public function purchase()
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Purchase::class);
     }
 }

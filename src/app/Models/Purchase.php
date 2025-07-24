@@ -9,6 +9,8 @@ class Purchase extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['user_id', 'item_id', 'shipping_address_id'];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -21,6 +23,6 @@ class Purchase extends Model
 
     public function shippingAddress()
     {
-        return $this->belongsTo(ShippingAddress::class);
+        return $this->hasOne(ShippingAddress::class);
     }
 }

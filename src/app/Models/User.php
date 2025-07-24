@@ -24,6 +24,7 @@ class User extends Authenticatable
         'profile_image',
         'zipcode',
         'address',
+        'building',
     ];
 
     /**
@@ -48,5 +49,17 @@ class User extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    // User.php
+
+    public function items()
+    {
+        return $this->hasMany(Item::class);
+    }
+
+    public function purchasedItems()
+    {
+        return $this->belongsToMany(Item::class, 'purchases')->withTimestamps();
     }
 }
