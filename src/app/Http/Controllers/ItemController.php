@@ -42,12 +42,12 @@ class ItemController extends Controller
 
     public function index(Request $request)
     {
+        $tab = $request->input('tab', Auth::check() ? 'mylist' : 'recommend');
+
         $query = Item::with('categories');
 
-        $userId = Auth::id();
-
-        if ($userId) {
-            $query->where('user_id', '!=', $userId);
+        if (Auth::check()) {
+            $query->where('user_id', '!=', Auth::id());
         }
 
         if ($request->filled('keyword')) {
@@ -57,28 +57,37 @@ class ItemController extends Controller
 
         $purchasedItemIds = \App\Models\Purchase::pluck('item_id')->toArray();
 
-        $items = $query->orderBy('created_at', 'desc')->paginate(12);
-
-        return view('items.index', compact('items', 'purchasedItemIds'));
-    }
-
-    public function edit(Item $item)
-    {
-        if (Auth::id() !== $item->user_id) {
-            abort(403, 'Unauthorized');
+        if ($tab === 'recommend') {
+            $recommendedItems = $query
+                ->whereNotIn('id', $purchasedItemIds)
+                ->orderBy('created_at', 'desc')
+                ->paginate(12);
+        } else {
+            $recommendedItems = collect();
         }
 
-        $categories = Category::all();
-        $selectedCategoryIds = $item->categories->pluck('id')->toArray();
+        $likedItems = collect();
+        if (Auth::check()) {
+            $likedItems = \App\Models\Mylist::with('item')
+                ->where('user_id', Auth::id())
+                ->get()
+                ->pluck('item')
+                ->filter();
+        }
 
-        return view('items.edit', compact('item', 'categories', 'selectedCategoryIds'));
+        return view('items.index', compact(
+            'tab',
+            'recommendedItems',
+            'likedItems',
+            'purchasedItemIds'
+        ));
     }
 
     public function update(ExhibitionRequest $request, Item $item)
     {
         if (Auth::id() !== $item->user_id) {
             abort(403, 'Unauthorized');
-        } //更新防止
+        }
 
         $item->update([
             'name' => $request->name,
@@ -97,8 +106,8 @@ class ItemController extends Controller
         $item->load(['categories', 'user', 'likes', 'comments.user']);
 
         $isSold = \App\Models\Purchase::where('item_id', $item->id)->exists();
-        
-        return view('items.show', compact('item'));
+
+        return view('items.show', compact('item', 'isSold'));
     }
 
     public function like($itemId)

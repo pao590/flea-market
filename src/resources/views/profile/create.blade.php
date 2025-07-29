@@ -18,7 +18,7 @@
     </div>
     @endif
     
-    <form action="{{ route('profile.setup.store') }}" method="POST" enctype="multipart/form-data">
+    <form action="{{ route('profile.store') }}" method="POST" enctype="multipart/form-data">
         @csrf
 
         <div class="flex items-center space-x-4 mb-4">

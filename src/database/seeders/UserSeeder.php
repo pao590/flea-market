@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'name' => 'テストユーザー',
             'email' => 'test@example.com',
             'password' => Hash::make('password'),
-            'profile_image' => 'default-profile.png',
+            'profile_image' => 'profiles/default-profile.png',
             'zipcode' => '123-4567',
             'address' => '東京都新宿区',
             'building' => 'サンプルビル101'

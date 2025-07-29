@@ -7,6 +7,8 @@ use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateAddressRequest;
 use App\Models\Purchase;
+use Stripe\Stripe;
+use Stripe\Checkout\Session;
 
 
 class PurchaseController extends Controller
@@ -17,6 +19,8 @@ class PurchaseController extends Controller
         $item = Item::with(['categories', 'user'])->findOrFail($itemId);
 
         $user = Auth::user();
+
+        session(['last_item_id' => $itemId]);
 
         return view('purchases.index', compact('item', 'user'));
     }
@@ -38,21 +42,31 @@ class PurchaseController extends Controller
 
     public function store(Request $request, $itemId)
     {
-        $user = auth()->user();
+        $request->validate([
+            'payment_method' => 'required|in:card,convenience',
+        ]);
 
-        if (Purchase::where('item_id', $itemId)->exists()){
+
+        $user = auth()->user();
+        $item = Item::findOrFail($itemId);
+
+        if (Purchase::where('item_id', $itemId)->exists()) {
             return redirect()->route('items.show', $itemId)->with('error', 'すでに購入されています。');
         }
-
-        $item = Item::findOrFail($itemId);
 
         if ($item->user_id == $user->id) {
             return redirect()->route('items.show', $itemId)->with('error', '自分の商品は購入できません。');
         }
 
+        Stripe::setApiKey(config('services.stripe.secret'));
+
+        $paymentMethod = $request->input('payment_method', 'card');
+
         Purchase::create([
             'user_id' => $user->id,
             'item_id' => $itemId,
+            'payment_method' => $paymentMethod,
+
         ]);
 
         return redirect()->route('items.index')->with('success', '商品を購入しました。');

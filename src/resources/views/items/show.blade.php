@@ -76,42 +76,45 @@
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="comments-section">
-        <h3 class="comments-title">コメント（{{ $item->comments->count() }}）</h3>
+        <div class="comments-section">
+            <h3 class="comments-title">コメント（{{ $item->comments->count() }}件）</h3>
 
-        @forelse ($item->comments as $comment)
-        <div class="comment-card">
-            <div class="comment-header">
-                <img src="{{ asset($comment->user->profile_image ?? 'storage/default-profile.png') }}" alt="プロフィール画像" class="comment-avatar">
-                <div class="comment-user-info">
-                    <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
-                    <p class="comment-date">{{ $comment->created_at->format('Y年m月d日 H:i') }}</p>
+            @forelse ($item->comments as $comment)
+            <div class="comment-card">
+                <div class="comment-header">
+                    <img src="{{ asset($comment->user->profile_image ?? 'storage/profiles/default-profile.png') }}" alt="プロフィール画像" class="comment-avatar">
+                    <div class="comment-user-info">
+                        <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
+                        <p class="comment-date">{{ $comment->created_at->format('Y年m月d日 H:i') }}</p>
+                    </div>
+                </div>
+                <div class="comment-body">
+                    <p class="comment-text">{{ $comment->content }}</p>
                 </div>
             </div>
-            <div class="comment-body">
-                <p class="comment-text">{{ $comment->content }}</p>
-            </div>
-        </div>
-        @empty
-        <p class="no-comments-message">まだコメントがありません。</p>
-        @endforelse
+            @empty
+            <p class="no-comments-message">まだコメントがありません。</p>
+            @endforelse
 
-        @auth
-        <div class="comment-form">
-            <form action="{{ route('comments.store') }}" method="POST">
-                @csrf
-                <input type="hidden" name="item_id" value="{{ $item->id }}">
-                <textarea name="content" rows="3" class="comment-textarea" placeholder="商品へのコメントを書く"></textarea>
-                @error('content')
-                <p class="comment-error-message">{{ $message }}</p>
-                @enderror
-                <button type="submit" class="comment-submit-button">コメントを送信</button>
-            </form>
+            @auth
+            <div class="comment-form">
+                <form action="{{ route('comments.store') }}" method="POST">
+                    @csrf
+                    <input type="hidden" name="item_id" value="{{ $item->id }}">
+                    <textarea name="content" rows="3" class="comment-textarea" placeholder="商品へのコメントを書く"></textarea>
+                    @error('content')
+                    <p class="comment-error-message">{{ $message }}</p>
+                    @enderror
+                    <button type="submit" class="comment-submit-button">コメントを送信する</button>
+                </form>
+            </div>
+            @endauth
         </div>
-        @endauth
+
     </div>
+
+    
 
 </div>
 @endsection

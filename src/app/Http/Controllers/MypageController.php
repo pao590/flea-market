@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Item;
 use App\Models\Purchase;
+use App\Models\Mylist;
 
 class MypageController extends Controller
 {
@@ -52,5 +53,17 @@ class MypageController extends Controller
         $user->save();
 
         return redirect()->route('mypage.index')->with('success', 'プロフィールを更新しました');
+    }
+
+    public function mylist()
+    {
+        $user = Auth::user();
+
+        $likedItems = Mylist::with('item')
+            ->where('user_id', $user->id)
+            ->get()
+            ->pluck('item');
+
+        return view('mypages.mylist', compact('likedItems'));
     }
 }

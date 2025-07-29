@@ -35,7 +35,7 @@ class AuthController extends Controller
 
         auth()->login($user);
 
-        return redirect()->route('profile.setup');
+        return redirect()->route('profile.create');
     }
 
     public function login(LoginRequest $request)

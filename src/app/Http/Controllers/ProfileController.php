@@ -29,7 +29,7 @@ class ProfileController extends Controller
             $user->profile_image = $path;
         }
 
-        $user->update($request->only(['name', 'zipcode', 'address', 'building']));
+        $user->update($request->only(['name', 'zipcode', 'address', 'building',]));
 
         return redirect()->route('profile.show')->with('success', 'プロフィールを更新しました。');
     }
@@ -42,7 +42,7 @@ class ProfileController extends Controller
             return redirect()->route('items.index');
         }
 
-        return view('mypages.setup', compact('user'));
+        return view('profile.create', compact('user'));
     }
 
     public function store(ProfileRequest $request)
@@ -52,8 +52,8 @@ class ProfileController extends Controller
         if ($request->hasFile('profile_image')) {
             $path = $request->file('profile_image')->store('profiles', 'public');
             $user->profile_image = $path;
-        }
-
+        } 
+        
         $user->fill($request->only(['name', 'zipcode', 'address', 'building']));
         $user->setup_completed = true;
         $user->save();

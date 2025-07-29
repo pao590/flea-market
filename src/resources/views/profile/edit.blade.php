@@ -12,7 +12,7 @@
         @csrf
 
         <div class="form-group image-upload">
-            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('storage/default-profile.png') }}"
+            <img src="{{ $user->profile_image ? asset('storage/' . $user->profile_image) : asset('storage/profiles/default-profile.png') }}"
                 class="image-preview" alt="プロフィール画像">
             <input type="file" name="profile_image">
         </div>
