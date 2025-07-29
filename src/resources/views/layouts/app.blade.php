@@ -22,6 +22,7 @@
 
 
                 <form action="{{ route('items.index') }}" method="GET" class="header-search-form">
+                    <input type="hidden" name="tab" value="{{ request('tab', Auth::check() ? 'mylist' : 'recommend') }}">
                     <input type="text" name="keyword" class="header-search-input" placeholder="何をお探しですか？" value="{{ request('keyword') }}">
                     <button type="submit" class="header-search-button"><i class="fas fa-search"></i></button>
                 </form>

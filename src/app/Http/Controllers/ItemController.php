@@ -9,6 +9,7 @@ use App\Models\Item;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use App\Models\Mylist;
+use App\Models\Purchase;
 
 class ItemController extends Controller
 {
@@ -43,37 +44,35 @@ class ItemController extends Controller
     public function index(Request $request)
     {
         $tab = $request->input('tab', Auth::check() ? 'mylist' : 'recommend');
+        $keyword = $request->input('keyword');
+        $purchasedItemIds = Purchase::pluck('item_id')->toArray();
 
-        $query = Item::with('categories');
+        $baseQuery = Item::with('categories');
 
         if (Auth::check()) {
-            $query->where('user_id', '!=', Auth::id());
+            $baseQuery->where('user_id', '!=', Auth::id());
         }
 
         if ($request->filled('keyword')) {
-            $keyword = $request->input('keyword');
-            $query->where('name', 'like', '%' . $keyword . '%');
+            $baseQuery->where('name', 'like', '%' . $keyword . '%');
         }
 
-        $purchasedItemIds = \App\Models\Purchase::pluck('item_id')->toArray();
+        $recommendedItems = collect();
+        $likedItems = collect();
 
         if ($tab === 'recommend') {
-            $recommendedItems = $query
-                ->whereNotIn('id', $purchasedItemIds)
-                ->orderBy('created_at', 'desc')
-                ->paginate(12);
-        } else {
-            $recommendedItems = collect();
-        }
-
-        $likedItems = collect();
-        if (Auth::check()) {
-            $likedItems = \App\Models\Mylist::with('item')
+            $recommendedItems = $baseQuery->orderBy('created_at', 'desc')->paginate(12);
+        } elseif ($tab === 'mylist' && Auth::check()) {
+            $likedItems = Mylist::with('item.categories')
                 ->where('user_id', Auth::id())
                 ->get()
                 ->pluck('item')
-                ->filter();
+                ->filter(function ($item) use ($keyword) {
+                    return empty($keyword) || stripos($item->name, $keyword) !== false;
+                })
+                ->values();
         }
+
 
         return view('items.index', compact(
             'tab',

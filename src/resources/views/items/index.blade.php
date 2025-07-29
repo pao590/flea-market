@@ -7,15 +7,15 @@
 @section('content')
 <div class="item-container">
     <div class="tabs">
-        <a href="{{ route('items.index', ['tab' => 'recommend']) }}"
+        <a href="{{ route('items.index', ['tab' => 'recommend', 'keyword' => request('keyword')]) }}"
             class="tab {{ $tab === 'recommend' ? 'active' : '' }}">おすすめ</a>
 
-        <a href="{{ route('items.index', ['tab' => 'mylist']) }}"
+        <a href="{{ route('items.index', ['tab' => 'mylist', 'keyword' => request('keyword') ]) }}"
             class="tab {{ $tab === 'mylist' ? 'active' : '' }}">マイリスト</a>
     </div>
 
     <div class="item-grid">
-    
+
         @if ($tab === 'recommend')
         @foreach ($recommendedItems as $item)
         <div class="item-card">
@@ -38,7 +38,7 @@
         </div>
         @endforeach
 
-    
+
         @elseif ($tab === 'mylist')
         @auth
         @forelse ($likedItems as $item)
@@ -69,7 +69,7 @@
         @endif
     </div>
 
-    
+
     @if ($tab === 'recommend')
     <div class="pagination">
         {{ $recommendedItems->links() }}
