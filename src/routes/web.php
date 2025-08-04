@@ -45,6 +45,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/mypages/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::get('/mypages/setup', [ProfileController::class, 'create'])->name('profile.create');
     Route::post('/mypages/setup', [ProfileController::class, 'store'])->name('profile.store');
+    Route::get('/mypages/mylist', [MypageController::class, 'mylist'])->name('mypages.mylist');
 });
 
 Route::middleware(['auth', 'verified'])->group(function () {

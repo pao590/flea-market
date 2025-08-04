@@ -63,6 +63,11 @@
         @empty
         <p class="message">マイリストに商品はありません。</p>
         @endforelse
+
+        <div class="pagination">
+            {{ $likedItems->links() }}
+        </div>
+        
         @else
         <p class="message">ログインするとマイリストが表示されます。</p>
         @endauth

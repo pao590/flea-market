@@ -62,6 +62,9 @@ class MypageController extends Controller
         $likedItems = Mylist::with('item')
             ->where('user_id', $user->id)
             ->get()
+            ->filter(function ($mylist) use ($user) {
+                return $mylist->item && $mylist->item->user_id !== $user->id;
+            })
             ->pluck('item');
 
         return view('mypages.mylist', compact('likedItems'));

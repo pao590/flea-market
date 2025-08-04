@@ -63,14 +63,19 @@ class ItemController extends Controller
         if ($tab === 'recommend') {
             $recommendedItems = $baseQuery->orderBy('created_at', 'desc')->paginate(12);
         } elseif ($tab === 'mylist' && Auth::check()) {
-            $likedItems = Mylist::with('item.categories')
-                ->where('user_id', Auth::id())
-                ->get()
-                ->pluck('item')
-                ->filter(function ($item) use ($keyword) {
-                    return empty($keyword) || stripos($item->name, $keyword) !== false;
+            $query = Item::with('categories')
+                ->whereIn('id', function ($query) {
+                    $query->select('item_id')
+                        ->from('mylists')
+                        ->where('user_id', Auth::id());
                 })
-                ->values();
+                ->where('user_id', '!=', Auth::id());
+
+            if (!empty($keyword)) {
+                $query->where('name', 'like', '%' . $keyword . '%');
+            }
+
+            $likedItems = $query->orderBy('created_at', 'desc')->paginate(12);
         }
 
 
@@ -113,6 +118,12 @@ class ItemController extends Controller
     {
         $user = auth()->user();
 
+        $item = Item::findOrFail($itemId);
+
+        if ($item->user_id === $user->id) {
+            return redirect()->back()->with('error', '自分の商品にはいいねできません');
+        }
+
         if (!Mylist::where('user_id', $user->id)->where('item_id', $itemId)->exists()) {
             Mylist::create([
                 'user_id' => $user->id,
@@ -120,7 +131,7 @@ class ItemController extends Controller
             ]);
         }
 
-        return redirect()->back();
+        return redirect()->back()->with('success', '商品をマイリストに追加しました');
     }
 
     public function unlike($itemId)

@@ -38,11 +38,13 @@
                         @csrf
                         <button type="submit" class="like-button" aria-label="お気に入りボタン">
                             <i class="{{ $liked ? 'fas' : 'far' }} fa-star"></i>
-
                         </button>
                         <div class="like-count">{{ $item->mylists->count() }}</div>
                     </form>
+                    @else
+                    <div class="like-count">{{ $item->mylists->count() }}</div>
                     @endauth
+
 
                     <div class="comment-button" role="button" tabindex="0" aria-label="コメント数">
                         <i class="far fa-comment"></i>
@@ -114,7 +116,7 @@
 
     </div>
 
-    
+
 
 </div>
 @endsection
