@@ -1,0 +1,89 @@
+.container {
+    max-width: 480px;
+    margin: 0 auto;
+    padding: 24px 16px;
+}
+
+h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 24px;
+}
+
+.validation-errors {
+    background-color: #ffe6e6;
+    border: 1px solid #f5c6cb;
+    color: #a94442;
+    padding: 12px;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+}
+
+.validation-errors ul {
+    list-style-type: disc;
+    padding-left: 1.25rem;
+    margin: 0;
+}
+
+.validation-errors li {
+    margin-bottom: 0.25rem;
+}
+
+.flex {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.rounded-full {
+    border-radius: 9999px;
+}
+
+.w-24 {
+    width: 6rem;
+    /* 24 * 0.25rem */
+}
+
+.h-24 {
+    height: 6rem;
+}
+
+.object-cover {
+    object-fit: cover;
+}
+
+input[type="file"] {
+    color: #f97316;
+    /* オレンジ色 */
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #e5e7eb;
+    border-radius: 6px;
+    margin-top: 4px;
+    box-sizing: border-box;
+}
+
+label {
+    font-weight: 500;
+}
+
+button {
+    background-color: #f97316;
+    color: white;
+    padding: 10px 0;
+    border-radius: 6px;
+    width: 100%;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    transition: background-color 0.2s ease;
+}
+
+button:hover {
+    background-color: #ea580c;
+}

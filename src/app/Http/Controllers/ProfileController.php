@@ -8,11 +8,11 @@ use App\Http\Requests\ProfileRequest;
 
 class ProfileController extends Controller
 {
-    public function show()
-    {
-        $user = Auth::user();
-        return view('profile.show', compact('user'));
-    }
+    // public function show()
+    // {
+    //     $user = Auth::user();
+    //     return view('profile.show', compact('user'));
+    // }
 
     public function edit()
     {
@@ -31,7 +31,7 @@ class ProfileController extends Controller
 
         $user->update($request->only(['name', 'zipcode', 'address', 'building',]));
 
-        return redirect()->route('profile.show')->with('success', 'プロフィールを更新しました。');
+        return redirect()->route('mypages.index')->with('success', 'プロフィールを更新しました。');
     }
 
     public function create()

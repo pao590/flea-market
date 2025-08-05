@@ -267,12 +267,18 @@
     background-color: #2779bd;
 }
 
-.like-form,
-.comment-button {
-    display: inline-flex;
+.like-form{
+    display: flex;
     flex-direction: column;
-    /* ← これが「縦並び」にするポイント */
     align-items: center;
+    justify-content: flex-start;
+}
+
+.comment-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
 }
 
 .like-count,
@@ -325,13 +331,6 @@
     gap: 2rem;
 }
 
-.item-image img {
-    width: 300px;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
 .item-info {
     flex: 1;
 }
@@ -341,7 +340,7 @@
     font-weight: bold;
 }
 
-.item-brand,
+
 .item-price,
 .item-color,
 .item-category,
@@ -412,7 +411,10 @@
 /* 修正：画像サイズと配置 */
 .item-image img {
     max-width: 300px;
+    height: 300px;
+    width: auto;
     height: auto;
+    object-fit: contain;
     border-radius: 10px;
 }
 
@@ -483,6 +485,7 @@
     gap: 2rem;
 }
 
+
 .item-summary img {
     width: 300px;
     /* 画像を大きくする */
@@ -491,35 +494,113 @@
     border-radius: 8px;
 }
 
+
+/* 商品名のスタイル */
+.item-title {
+    font-size: 40px;
+    font-weight: bold;
+    margin-bottom: 0 0 4px 0;
+}
+
+/* ブランド名のスタイル */
+.item-brand {
+    font-size: 12px;
+    color: #555;
+    display: block;
+    margin-top: 0;
+}
+
+/* コンテナの余白を調整 */
+.item-detail-container {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+}
+
+
+/* 商品情報を詰めて表示 */
+.item-info {
+    margin-top: 0;
+}
+
+/* ヘッダー直下の余白を調整 */
+.item-detail-container {
+    margin-top: 20px;
+    padding-top: 0;
+}
+
+/* 商品詳細の横並び */
+.item-detail-wrapper {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+/* コメントセクションを独立して下に配置 */
+.comments-section {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+}
+
 .container {
     width: 100%;
+    margin: 0 auto;
     padding: 16px;
 }
 
-
-@media (min-width: 768px) and (max-width: 850px) {
+@media (max-width: 767px) {
     .container {
-        width: 90%;
-        margin: auto;
-        padding: 24px;
+        width: 95%;
+        padding: 12px;
     }
 
-    .profile-image {
-        width: 120px;
-        height: 120px;
+    .item-detail-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .item-image img {
+        max-width: 200px;
+        max-height: 200px;
+    }
+
+    .item-info {
+        text-align: center;
     }
 }
 
+/* コメントセクション全体を中央寄せ & 幅制限 */
+.comments-section {
+    max-width: 960px;
+    margin: 40px auto 0;
+    padding-top: 20px;
+    border-top: 1px solid #e0e0e0;
+    display: block;
+    /* flexを解除してズレを防ぐ */
+}
 
-@media (min-width: 1400px) and (max-width: 1540px) {
-    .container {
-        width: 70%;
-        margin: auto;
-        padding: 32px;
-    }
+/* コメントタイトル */
+.comments-title {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: left;
+    /* タイトルは左揃え */
+}
 
-    .profile-image {
-        width: 150px;
-        height: 150px;
-    }
+/* 各コメントカード */
+.comment-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    /* コメントカードは幅いっぱい */
+}
+
+/* コメントフォームも幅いっぱい */
+.comment-form {
+    width: 100%;
 }

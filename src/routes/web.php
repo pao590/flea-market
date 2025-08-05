@@ -48,10 +48,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/mypages/mylist', [MypageController::class, 'mylist'])->name('mypages.mylist');
 });
 
-Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/mypages/setup', [ProfileController::class, 'create'])->name('profile.create');
-    Route::post('/mypages/setup', [ProfileController::class, 'store'])->name('profile.store');
-});
+// Route::middleware(['auth', 'verified'])->group(function () {
+//     Route::get('/mypages/setup', [ProfileController::class, 'create'])->name('profile.create');
+//     Route::post('/mypages/setup', [ProfileController::class, 'store'])->name('profile.store');
+// });
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');

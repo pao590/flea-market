@@ -15,9 +15,9 @@
         <div class="item-image">
             <img src="{{ asset('storage/' . $item->image_path) }}" alt="{{ $item->name }}">
         </div>
+        
         <div class="item-info">
             <h2 class="item-title">{{ $item->name }}</h2>
-
             <p class="item-brand">{{ $item->brand_name ?? 'ブランド未設定' }}</p>
 
             <h3>商品説明</h3>
@@ -30,10 +30,11 @@
             <div class="item-meta">
                 <div class="item-price">価格: ¥{{ number_format($item->price) }}</div>
                 <div class="item-actions">
-                    @auth
                     @php
-                    $liked = $item->mylists->contains('user_id', Auth::id());
+                    $liked = Auth::check() ? $item->mylists->contains('user_id', Auth::id()) : false;
                     @endphp
+
+                    @if (Auth::check())
                     <form action="{{ $liked ? route('items.unlike',$item->id) : route('items.like',$item->id) }}" method="POST" class="like-form">
                         @csrf
                         <button type="submit" class="like-button" aria-label="お気に入りボタン">
@@ -42,9 +43,11 @@
                         <div class="like-count">{{ $item->mylists->count() }}</div>
                     </form>
                     @else
+                    <a href="{{ route('login') }}" class="like-button">
+                        <i class="far fa-star"></i>
+                    </a>
                     <div class="like-count">{{ $item->mylists->count() }}</div>
-                    @endauth
-
+                    @endif
 
                     <div class="comment-button" role="button" tabindex="0" aria-label="コメント数">
                         <i class="far fa-comment"></i>
@@ -56,8 +59,8 @@
                 <div class="purchase-button-wrapper">
                     @if ($isSold)
                     <span class="sold-label text-danger">この商品は売り切れました（Sold）</span>
-                    @elseif (Auth::check() && Auth::id() !== $item->user_id)
-                    <a href="{{ route('purchases.index', ['item_id' => $item->id]) }}" class="purchase-button">購入手続きへ</a>
+                    @elseif (Auth::id() !== $item->user_id)
+                    <a href="{{ Auth::check() ? route('purchases.index', ['item_id' => $item->id]) : route('login') }}" class="purchase-button">購入手続きへ</a>
                     @endif
                 </div>
 
@@ -77,46 +80,46 @@
                     @endforeach
                 </div>
             </div>
-        </div>
 
-        <div class="comments-section">
-            <h3 class="comments-title">コメント（{{ $item->comments->count() }}件）</h3>
+            <div class=" comments-section">
+                <h3 class="comments-title">コメント（{{ $item->comments->count() }}件）</h3>
 
-            @forelse ($item->comments as $comment)
-            <div class="comment-card">
-                <div class="comment-header">
-                    <img src="{{ asset($comment->user->profile_image ?? 'storage/profiles/default-profile.png') }}" alt="プロフィール画像" class="comment-avatar">
-                    <div class="comment-user-info">
-                        <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
-                        <p class="comment-date">{{ $comment->created_at->format('Y年m月d日 H:i') }}</p>
+                @forelse ($item->comments as $comment)
+                <div class="comment-card">
+                    <div class="comment-header">
+                        <img src="{{ asset($comment->user->profile_image ?? 'storage/profiles/default-profile.png') }}" alt="プロフィール画像" class="comment-avatar">
+                        <div class="comment-user-info">
+                            <p class="comment-user-name">{{ $comment->user->name ?? '匿名ユーザー' }}</p>
+                            <p class="comment-date">{{ $comment->created_at->format('Y年m月d日 H:i') }}</p>
+                        </div>
+                    </div>
+                    <div class="comment-body">
+                        <p class="comment-text">{{ $comment->content }}</p>
                     </div>
                 </div>
-                <div class="comment-body">
-                    <p class="comment-text">{{ $comment->content }}</p>
+                @empty
+                <p class="no-comments-message">まだコメントがありません。</p>
+                @endforelse
+
+                <div class="comment-form">
+                    @if (Auth::check())
+                    <form action="{{ route('comments.store') }}" method="POST">
+                        @csrf
+                        <input type="hidden" name="item_id" value="{{ $item->id }}">
+                        <textarea name="content" rows="3" class="comment-textarea" placeholder="商品へのコメントを書く"></textarea>
+                        @error('content')
+                        <p class="comment-error-message">{{ $message }}</p>
+                        @enderror
+                        <button type="submit" class="comment-submit-button">コメントを送信する</button>
+                    </form>
+                    @else
+                    <textarea rows="3" class="comment-textarea" placeholder="商品へのコメントを書く" disabled></textarea>
+                    <a href="{{ route('login') }}" class="comment-login-button">ログインしてコメントする</a>
+                    @endif
                 </div>
             </div>
-            @empty
-            <p class="no-comments-message">まだコメントがありません。</p>
-            @endforelse
-
-            @auth
-            <div class="comment-form">
-                <form action="{{ route('comments.store') }}" method="POST">
-                    @csrf
-                    <input type="hidden" name="item_id" value="{{ $item->id }}">
-                    <textarea name="content" rows="3" class="comment-textarea" placeholder="商品へのコメントを書く"></textarea>
-                    @error('content')
-                    <p class="comment-error-message">{{ $message }}</p>
-                    @enderror
-                    <button type="submit" class="comment-submit-button">コメントを送信する</button>
-                </form>
-            </div>
-            @endauth
         </div>
-
     </div>
-
-
 
 </div>
 @endsection

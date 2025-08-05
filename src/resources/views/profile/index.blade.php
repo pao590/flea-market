@@ -23,11 +23,11 @@
 
     {{-- タブ --}}
     <div class="tabs">
-        <a href="{{ route('profile.show', ['page' => 'sell']) }}"
+        <a href="{{ route('mypages.index', ['page' => 'sell']) }}"
             class="tab {{ request('page') == 'sell' ? 'active' : '' }}">
             出品した商品
         </a>
-        <a href="{{ route('profile.show', ['page' => 'buy']) }}"
+        <a href="{{ route('mypages.index', ['page' => 'buy']) }}"
             class="tab {{ request('page') == 'buy' ? 'active' : '' }}">
             購入した商品
         </a>

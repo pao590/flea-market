@@ -29,13 +29,7 @@
 
                 <nav>
                     <ul class="header-nav">
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="{{ route('items.create') }}">出品する</a>
-                        </li>
                         @auth
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="{{ route('mypages.index') }}">マイページ</a>
-                        </li>
                         <li class="header-nav__item">
                             <form class="form" action="/logout" method="POST">
                                 @csrf
@@ -48,10 +42,17 @@
                         <li class="header-nav__item">
                             <a class="header-nav__link" href="{{ route('login') }}">ログイン</a>
                         </li>
-                        <li class="header-nav__item">
-                            <a class="header-nav__link" href="{{ route('register') }}">新規登録</a>
-                        </li>
                         @endguest
+
+                        <li class="header-nav__item">
+                            <a class="header-nav__link" href="{{ Auth::check() ? route('mypages.index') : route('login') }}">
+                                マイページ
+                            </a>
+                        </li>
+
+                        <li class="header-nav__item">
+                            <a class="header-nav__link header-nav__link--button" href="{{ route('items.create') }}">出品</a>
+                        </li>
                     </ul>
                 </nav>
 

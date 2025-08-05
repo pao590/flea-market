@@ -37,7 +37,7 @@
 
         <div class="form-section">
             <label>配送先</label>
-            <p>〒{{ $user->postal_code }}</p>
+            <p>〒{{ $user->zipcode }}</p>
             <p>{{ $user->address }}</p>
             <a href="{{ route('purchases.address') }}">変更する</a>
         </div>
