@@ -93,7 +93,7 @@ SHOW DATABASES;
 ```
 テスト用の.envファイルの作成
 cp .env .env.testing
-
+```
 APP_ENV=test
 APP_KEY=
 DB_DATABASE=demo_test
@@ -110,7 +110,7 @@ php artisan migrate --env=testing
 ```
 テストの実行
 php artisan test
-
+```
 ## トラブルシューティング
 
 ```
@@ -135,5 +135,20 @@ composer install
 ![ER図](ER.drawio.png)
 
 ## URL
+```
+- 商品一覧：http://localhost/
+- 商品詳細：http://localhost/item/{item_id}
+- 会員登録：http://localhost/register
+- ログイン：http://localhost/login
+```
 
-- 商品一覧：http://localhost/products
+```
+※ログイン必須URL
+- 商品購入:http://localhost/purchase
+- 配送先住所変更:http://localhost/purchase/address
+- 商品出品:http://localhost/item/create
+- マイリスト商品:http://localhost/mypages/mylist
+- プロフィール:http://localhost/mypages
+- プロフィール登録:http://localhost/mypages/setup
+- プロフィール編集:http://localhost/mypages/profile
+```
