@@ -93,24 +93,25 @@ SHOW DATABASES;
 ```
 テスト用の.envファイルの作成
 cp .env .env.testing
-```
+
 APP_ENV=test
 APP_KEY=
 DB_DATABASE=demo_test
 DB_USERNAME=root
 DB_PASSWORD=root
-
+```
 ```
 テスト用のテーブルの作成
 docker-compose exec php bash
 php artisan key:generate --env=testing
 php artisan config:clear
 php artisan migrate --env=testing
+```
 
 ```
 テストの実行
 php artisan test
-```
+
 ## トラブルシューティング
 
 ```
