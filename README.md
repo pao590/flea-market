@@ -70,6 +70,8 @@ chmod -R 777 storage
 アプリ本体	http://localhost
 phpMyAdmin	http://localhost:8080
 
+```
+
 ## 使用技術
 
 - PHP 7.4.9
@@ -108,6 +110,26 @@ php artisan migrate --env=testing
 ```
 テストの実行
 php artisan test
+
+## トラブルシューティング
+
+```
+マイグレーションでエラーが起きた場合：
+php artisan migrate:fresh --seed
+を実行してデータベースをリセットし再構築してください
+```
+```
+依存パッケージを変更したい・追加したい
+composer install
+こちらをPHPコンテナに入ってから実行してください
+```
+
+## 補足
+```
+- DockerとDocker Composeがインストールされている必要があります。
+- docker-compose.yml により環境を起動します。
+- マイグレーションは初回に必ず実行してください。
+```
 
 ## ER 図
 ![ER図](ER.drawio.png)
