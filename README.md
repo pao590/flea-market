@@ -4,6 +4,10 @@
 
 本プロジェクトは、ユーザーが会員登録、ログイン、商品閲覧、購入、コメント、いいね機能などを利用できる EC サイトです。  
 Laravel Fortify による認証機能、メール認証、商品管理機能、コメント機能、Stripe 連携による決済機能を実装しています。
+今回、比較していただきやすいようテストユーザーを二つ用意させていただきました。ご活用くださいませ。
+1.　テストユーザー　test@example.com  pass:password
+2.　未出品ユーザー　noitems@example.com　pass:password
+テスト商品を10品出品したユーザーと全く出品していないユーザーになります。　
 
 ---
 
@@ -11,7 +15,7 @@ Laravel Fortify による認証機能、メール認証、商品管理機能、�
 
 ```
 リポジトリからダウンロード
-git clone git@github.com:pao590/tao-kadai2.git
+git clone git@github.com:pao590/flea-market.git
 
 ```
 
@@ -29,8 +33,11 @@ DB_PASSWORD=laravel_pass
 
 Docker コンテナの構築と起動
 docker-compose up -d --build
-
+コンテナが起動できましたら、
+docker ps
+でphp、mysql、nginx、phpmyadmin、mailhog が起動していることを確認してください。
 ```
+
 PHPコンテナ起動
 docker-compose exec php bash
 ```
@@ -58,15 +65,51 @@ php artisan db:seed
 
 chmod -R 777 storage
 
+```
+動作確認用URL
+アプリ本体	http://localhost
+phpMyAdmin	http://localhost:8080
+
 ## 使用技術
 
 - PHP 7.4.9
 - Laravel 8.83.29
 - MySQL 8.0.26
 - Docker 27.4.0
+- Laravel Fortify（認証）
+
+## テスト環境構築
+
+```
+テスト用データベースの作成
+docker-compose exec mysql bash
+mysql -u root -p
+
+CREATE DATABASE demo_test;
+SHOW DATABASES;
+
+```
+テスト用の.envファイルの作成
+cp .env .env.testing
+
+APP_ENV=test
+APP_KEY=
+DB_DATABASE=demo_test
+DB_USERNAME=root
+DB_PASSWORD=root
+
+```
+テスト用のテーブルの作成
+docker-compose exec php bash
+php artisan key:generate --env=testing
+php artisan config:clear
+php artisan migrate --env=testing
+
+```
+テストの実行
+php artisan test
 
 ## ER 図
-
 ![ER図](ER.drawio.png)
 
 ## URL
