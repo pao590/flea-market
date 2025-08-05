@@ -99,14 +99,14 @@ APP_KEY=
 DB_DATABASE=demo_test
 DB_USERNAME=root
 DB_PASSWORD=root
-```
+
 ```
 テスト用のテーブルの作成
 docker-compose exec php bash
 php artisan key:generate --env=testing
 php artisan config:clear
 php artisan migrate --env=testing
-```
+
 
 ```
 テストの実行
