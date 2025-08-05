@@ -91,6 +91,7 @@ CREATE DATABASE demo_test;
 SHOW DATABASES;
 
 ```
+```
 テスト用の.envファイルの作成
 cp .env .env.testing
 
@@ -99,6 +100,7 @@ APP_KEY=
 DB_DATABASE=demo_test
 DB_USERNAME=root
 DB_PASSWORD=root
+```
 
 ```
 テスト用のテーブルの作成
@@ -109,8 +111,10 @@ php artisan migrate --env=testing
 
 
 ```
+```
 テストの実行
 php artisan test
+```
 
 ## トラブルシューティング
 
