@@ -47,7 +47,7 @@
             <input type="text" name="building" value="{{ old('building') }}" class="w-full border rounded p-2">
         </div>
 
-        <button type="submit" class="bg-orange-500 text-white px-4 py-2 rounded w-full">
+        <button type="submit" class="form-button">
             登録する
         </button>
     </form>

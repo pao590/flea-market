@@ -37,7 +37,7 @@
             <input type="text" name="building" value="{{ old('building', $user->building) }}">
         </div>
 
-        <button type="submit" class="submit-button">更新する</button>
+        <button type="submit" class="form-button">更新する</button>
     </form>
 </div>
 @endsection
